@@ -35,14 +35,15 @@ router.get('/list', function(req, res, next) {
 
 
 router.post("/new", (req, res) => {
-  let user = {
-    id: req.body.id,
-    izena: req.body.izena,
-    abizena: req.body.abizena,
-    email: req.body.email
-  };
-
-  db.users.insert( user );
+  
+  db.users.insert( req.body, function(err, user) {
+    if (err) {
+      console.log(err)
+    } else {
+      res.json(user)
+    }
+    }
+   );
   /*
   db.users.find(function(err, users) {
     if (err) {
@@ -56,7 +57,7 @@ router.post("/new", (req, res) => {
 
 router.delete("/delete/:id", (req, res) => {
 
-  db.users.remove({id: parseInt(req.params.id)});
+  db.users.remove({"_id":  mongojs.ObjectID(req.params.id)});
   /*
   db.users.find(function(err, users) {
     if (err) {
@@ -69,11 +70,17 @@ router.delete("/delete/:id", (req, res) => {
 });
 
 router.put("/update/:id", (req, res) => {
-  let user = users.find(user => user.id == req.params.id);
-  user.izena = req.body.izena;
-  user.abizena = req.body.abizena;
-  user.email = req.body.email;
-  res.json(users);
+  
+  db.users.update({"_id":  mongojs.ObjectID(req.params.id)}, {
+    $set: {izena: req.body.izena, abizena: req.body.abizena, email: req.body.email}
+  }, function(err, user) {
+    if (err) {
+      console.log(err)
+    } else {
+      res.json(user)
+    }
+  });
+  
 })
 
 module.exports = router;
