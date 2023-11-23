@@ -35,6 +35,7 @@ router.get('/list', function(req, res, next) {
 
 
 router.post("/new", (req, res) => {
+
   
   db.users.insert( req.body, function(err, user) {
     if (err) {

@@ -88,11 +88,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let user = {
         izena: e.target.izena.value,
         abizena: e.target.abizena.value,
-        id: Date.now(),
         email: e.target.email.value
     }
-
-    
 
     fetch("/users/new", {
       method: "POST",
