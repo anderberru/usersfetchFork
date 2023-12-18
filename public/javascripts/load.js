@@ -58,6 +58,7 @@ let insertUser = (user) => {
   newRow.setAttribute("id", user._id);
   newRow.innerHTML = `
                 <th scope="row">${user._id}</th>
+                <td><img src="${user.avatar}" alt="Avatar" style="width: 100px; height: 100px;"></td>
                 <td>${user.izena}</td>
                 <td>${user.abizena}</td>
                 <td>${user.email}</td>
@@ -91,12 +92,11 @@ document.addEventListener("DOMContentLoaded", function () {
         email: e.target.email.value
     }
 
+    const formData  = new FormData(document.getElementById("formularioa"));
+
     fetch("/users/new", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
+      body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
