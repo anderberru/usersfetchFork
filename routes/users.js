@@ -19,7 +19,7 @@ function fileFilter (req, file, cb) {
   // The function should call `cb` with a boolean
   // to indicate if the file should be accepted
   console.log(file)
-  if (file.originalname.split('.')[1] === "png" || file.originalname.split('.')[1] === "jpg" || file.originalname.split('.')[1] === "jpeg"){
+  if (file.originalname.split('.')[1] === "png" || file.originalname.split('.')[1] === "jpg" || file.originalname.split('.')[1] === "jpeg" || file.originalname.split('.')[1] === "gif"){
       // To reject this file pass `false`, like so:
       cb(null, true)
   } else {
