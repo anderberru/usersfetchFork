@@ -68,7 +68,7 @@ router.get('/list', function(req, res, next) {
 
 router.post("/new", upload.single('avatar'), (req, res) => {
 
-  var nofoto = req.protocol + '://' + req.get('host') + "/nofoto/nofoto.png"
+  var nofoto = "https://ariketa4.anderberru.eus" + "/nofoto/nofoto.png"
 
   let response = {
     izena: req.body.izena,
@@ -113,7 +113,7 @@ router.delete("/delete/:id", (req, res) => {
 
 router.put("/update/:id", upload.single('avatar'), (req, res) => {
 
-  var nofoto = req.protocol + '://' + req.get('host') + "/nofoto/nofoto.png"
+  var nofoto = "https://ariketa4.anderberru.eus" + "/nofoto/nofoto.png"
 
   db.usersMulter.findAndModify({
     query: { _id: mongojs.ObjectId(req.params.id) },
