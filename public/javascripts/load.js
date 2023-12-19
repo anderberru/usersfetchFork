@@ -59,7 +59,7 @@ let updateUser = (id) => {
     console.log(data); 
     row.innerHTML = `
       <th scope="row">${id}</th>
-      <td><img src="${data.avatar}" alt="Avatar" style="width: 100px; height: 100px;"></td>
+      <td><a href="${data.avatar}" target="_blank"><img src="${data.avatar}" alt="Avatar" style="width: 100px; height: 100px;"></a></td>
       <td>${data.izena}</td>
       <td>${data.abizena}</td>
       <td>${data.email}</td>
@@ -113,7 +113,7 @@ let insertUser = (user) => {
   newRow.setAttribute("id", user._id);
   newRow.innerHTML = `
                 <th scope="row">${user._id}</th>
-                <td><img src="${user.avatar}" alt="Avatar" style="width: 100px; height: 100px;"></td>
+                <td><a href="${user.avatar}" target="_blank"><img src="${user.avatar}" alt="Avatar" style="width: 100px; height: 100px;"></a></td>
                 <td>${user.izena}</td>
                 <td>${user.abizena}</td>
                 <td>${user.email}</td>
