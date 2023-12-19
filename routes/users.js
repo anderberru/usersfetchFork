@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs')
-var db = mongojs('usersdb', ['users'])
+var db = mongojs('usersdb', ['usersMulter'])
 const multer  = require('multer')
 
 
@@ -42,7 +42,7 @@ let users = [
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  db.users.find(function(err, users) {
+  db.usersMulter.find(function(err, users) {
     if (err) {
       console.log(err)
   } else {
@@ -56,7 +56,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/list', function(req, res, next) {
-  db.users.find(function(err, users) {
+  db.usersMulter.find(function(err, users) {
     if (err) {
       console.log(err)
   } else {
@@ -77,7 +77,7 @@ router.post("/new", upload.single('avatar'), (req, res) => {
     avatar: req.file ? getURL(req, req.file) : nofoto
   }
 
-  db.users.insert( response, function(err, user) {
+  db.usersMulter.insert( response, function(err, user) {
     if (err) {
       console.log(err)
     } else {
@@ -98,7 +98,7 @@ router.post("/new", upload.single('avatar'), (req, res) => {
 
 router.delete("/delete/:id", (req, res) => {
 
-  db.users.remove({"_id":  mongojs.ObjectID(req.params.id)});
+  db.usersMulter.remove({"_id":  mongojs.ObjectID(req.params.id)});
   /*
   db.users.find(function(err, users) {
     if (err) {
@@ -115,7 +115,7 @@ router.put("/update/:id", upload.single('avatar'), (req, res) => {
 
   var nofoto = req.protocol + '://' + req.get('host') + "/nofoto/nofoto.png"
 
-  db.users.findAndModify({
+  db.usersMulter.findAndModify({
     query: { _id: mongojs.ObjectId(req.params.id) },
     update: {
       $set: {
