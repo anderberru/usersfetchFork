@@ -68,7 +68,7 @@ router.get('/list', function(req, res, next) {
 
 router.post("/new", upload.single('avatar'), (req, res) => {
 
-  var nofoto = req.protocol + '://' + req.get('host') + "/uploads/nofoto.png"
+  var nofoto = req.protocol + '://' + req.get('host') + "/nofoto/nofoto.png"
 
   let response = {
     izena: req.body.izena,
@@ -110,22 +110,60 @@ router.delete("/delete/:id", (req, res) => {
     */
 });
 
+
 router.put("/update/:id", upload.single('avatar'), (req, res) => {
 
-  var nofoto = req.protocol + '://' + req.get('host') + "/uploads/nofoto.png"
+  var nofoto = req.protocol + '://' + req.get('host') + "/nofoto/nofoto.png"
 
-  
-  db.users.update({"_id":  mongojs.ObjectID(req.params.id)}, {
-    $set: {izena: req.body.izena, abizena: req.body.abizena, email: req.body.email, avatar: req.file ? getURL(req, req.file) : nofoto}
-  }, function(err, user) {
+  db.users.findAndModify({
+    query: { _id: mongojs.ObjectId(req.params.id) },
+    update: {
+      $set: {
+        izena: req.body.izena, abizena: req.body.abizena, email: req.body.email, avatar: req.file ? getURL(req, req.file) : nofoto
+      },
+    },
+    new: true  
+  }, function(err, user, lastErrorObject) {
     if (err) {
-      console.log(err)
+      console.log(err);
     } else {
-      res.json(user)
+      console.log(user);
+      res.json(user);
     }
   });
   
 })
+
+
+/*
+router.put('/update/:id', upload.single('avatar'), (req, res) => {
+  let user = users.find((user) => user._id == req.params.id);
+  user.izena = req.body.izena;
+  user.abizena = req.body.abizena;
+  user.email = req.body.email;
+  user.avatar = req.file ? getURL(req, req.file) : user.avatar;
+
+  db.users.findAndModify({
+    query: { _id: mongoJs.ObjectId(req.params.id) },
+    update: {
+      $set: {
+        izena: req.body.izena,
+        abizena: req.body.abizena,
+        email: req.body.email,
+        avatar: user.avatar,
+      },
+    },
+    new: true
+  }, function(err, user, lastErrorObject) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(user);
+      res.json(user);
+    }
+  });
+});
+*/
 
 function getURL(req, file){
   return req.protocol + '://' + req.get('host') + "/" + file.destination + file.filename
