@@ -166,7 +166,7 @@ router.put('/update/:id', upload.single('avatar'), (req, res) => {
 */
 
 function getURL(req, file){
-  return req.protocol + '://' + req.get('host') + "/" + file.destination + file.filename
+  return "https://ariketa4.anderberru.eus"+ "/" + file.destination + file.filename
 }
-
+// req.protocol + '://' + req.get('host')
 module.exports = router;
