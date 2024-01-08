@@ -113,14 +113,17 @@ router.delete("/delete/:id", (req, res) => {
 
 router.put("/update/:id", upload.single('avatar'), (req, res) => {
 
-  var nofoto = "/nofoto/nofoto.png"
+  let response;
+  if (req.file){
+    response = {izena: req.body.izena, abizena: req.body.abizena, email: req.body.email, avatar: getURL(req, req.file)}
+  } else {
+    response = {izena: req.body.izena, abizena: req.body.abizena, email: req.body.email}
+  }
 
   db.usersMulter.findAndModify({
     query: { _id: mongojs.ObjectId(req.params.id) },
     update: {
-      $set: {
-        izena: req.body.izena, abizena: req.body.abizena, email: req.body.email, avatar: req.file ? getURL(req, req.file) : nofoto
-      },
+      $set: response,
     },
     new: true  
   }, function(err, user, lastErrorObject) {
